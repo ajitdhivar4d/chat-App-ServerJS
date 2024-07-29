@@ -24,14 +24,18 @@ const adminOnly = (req, res, next) => {
   const token = req.cookies["chatApp-admin-token"];
 
   if (!token)
-    return next(new ErrorHandler("Only admin can access this route", 401));
+    return next(
+      new ErrorHandler("Only admin can access this route token false", 401),
+    );
 
   const secretKey = jwt.verify(token, process.env.JWT_SECRET);
 
   const isMatched = secretKey === adminSecretKey;
 
   if (!isMatched)
-    return next(new ErrorHandler("Only admin can access this route", 401));
+    return next(
+      new ErrorHandler("Only admin can access this route token not match", 401),
+    );
 
   next();
 };
